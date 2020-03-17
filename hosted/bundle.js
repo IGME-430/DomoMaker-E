@@ -11,6 +11,11 @@ var handleDomo = function handleDomo(e) {
     return false;
   }
 
+  if ($("#domoName").val().indexOf(' ') > 0) {
+    handleError("RAWR! No spaces allowed in names.");
+    return false;
+  }
+
   sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
     getToken();
   });
@@ -19,7 +24,8 @@ var handleDomo = function handleDomo(e) {
 
 var removeDomo = function removeDomo(e) {
   e.preventDefault();
-  var removalData = "name=".concat(e.target.id.toString(), "&");
+  var domoName = e.target.querySelectorAll("h3")[0].innerText.split(":")[1].replace(' ', '');
+  var removalData = "name=".concat(domoName, "&");
   removalData += $("[id=".concat(e.target.id, "]")).serialize();
   sendAjax('POST', $("[id=".concat(e.target.id, "]")).attr("action"), removalData, function () {
     getToken();
@@ -78,7 +84,8 @@ var DomoList = function DomoList(props) {
 
   var domoNodes = props.domos.map(function (domo) {
     return React.createElement("form", {
-      id: domo.name,
+      id: domo.name // <form id="domoEntry"
+      ,
       key: domo._id,
       onSubmit: removeDomo,
       name: "domoEntry",

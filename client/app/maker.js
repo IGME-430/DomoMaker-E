@@ -8,6 +8,11 @@ const handleDomo = (e) => {
         return false;
     }
 
+    if ($("#domoName").val().indexOf(' ') > 0) {
+        handleError("RAWR! No spaces allowed in names.");
+        return false;
+    }
+
     sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
         getToken();
     });
@@ -18,7 +23,9 @@ const handleDomo = (e) => {
 const removeDomo = (e) => {
     e.preventDefault();
 
-    let removalData = `name=${(e.target.id).toString()}&`;
+    let domoName = e.target.querySelectorAll("h3")[0].innerText.split(":")[1].replace(' ','');
+
+    let removalData = `name=${domoName}&`;
     removalData += $(`[id=${e.target.id}]`).serialize();
 
     sendAjax(
@@ -66,6 +73,7 @@ const DomoList = function (props) {
     const domoNodes = props.domos.map(function (domo) {
         return (
             <form id={domo.name}
+            // <form id="domoEntry"
                   key={domo._id}
                   onSubmit={removeDomo}
                   name="domoEntry"
