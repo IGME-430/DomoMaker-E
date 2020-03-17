@@ -19,7 +19,7 @@ var handleDomo = function handleDomo(e) {
 
 var removeDomo = function removeDomo(e) {
   e.preventDefault();
-  var removalData = "name=".concat(e.target.id, "&");
+  var removalData = "name=".concat(e.target.id.toString(), "&");
   removalData += $("[id=".concat(e.target.id, "]")).serialize();
   sendAjax('POST', $("[id=".concat(e.target.id, "]")).attr("action"), removalData, function () {
     getToken();

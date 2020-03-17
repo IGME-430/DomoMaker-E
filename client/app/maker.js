@@ -18,7 +18,7 @@ const handleDomo = (e) => {
 const removeDomo = (e) => {
     e.preventDefault();
 
-    let removalData = `name=${e.target.id}&`;
+    let removalData = `name=${(e.target.id).toString()}&`;
     removalData += $(`[id=${e.target.id}]`).serialize();
 
     sendAjax(
